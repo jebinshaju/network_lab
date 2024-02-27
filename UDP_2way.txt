@@ -1,0 +1,162 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Name     : Jebin Shaju
+Class    : CSE B
+Semester : S6
+Roll No  : 33
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	    UDP - 2 WAY CLIENT SERVER COMMUNICATION
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.............
+udp_server2.c
+.............
+
+
+#include<stdio.h>
+#include<string.h>
+#include<sys/socket.h>
+#include<stdlib.h>
+#include<netdb.h>
+
+int main(int argc,char* argv[])
+{
+	struct sockaddr_in server;
+	if (argc != 2)
+	{
+		printf("Input format not correct.");
+	}
+	
+	int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+	if(sockfd == -1)
+	{
+		printf("Error in socket creation.");
+	}
+	
+	server.sin_family = AF_INET;
+	server.sin_addr.s_addr = INADDR_ANY;
+	server.sin_port = htons(atoi(argv[1]));
+	
+	if(bind(sockfd,(struct sockaddr*)&server,sizeof(server))<0)
+	{
+		printf("Error in binding.");
+	}
+	
+	char buffer[100];
+	char reply[100];
+	printf("Server waiting.\n");
+	do
+	{
+		strcpy(reply,"");
+		int i=sizeof(server);
+		int k=(recvfrom(sockfd,buffer,100,0,(struct sockaddr*)&server,&i));
+	  	if(k<0)
+	    		printf("error in receiving\n");
+		printf("\nGot a datagram:%s",buffer);
+		
+		
+		printf("\nEnter reply message: ");
+//		fgets(reply,100,stdin);
+		gets(reply);
+		
+		//printf("length : %d",strlen(reply));
+		
+		if(sendto(sockfd,reply,sizeof(reply),0,(struct sockaddr*)&server,sizeof(server)),0)
+		{
+			printf("\nError in sending");
+		}
+		if(strcmp(reply,"bye")== 0)
+			break;
+	}while(strcmp(buffer,"bye")!= 0);
+	return 0;
+}
+
+
+.............
+udp_client2.c
+.............
+#include<sys/socket.h>
+#include<netdb.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+int main(int argc,char* argv[])
+{
+	struct sockaddr_in client;
+	if (argc != 3)
+	{
+		printf("Input format not connect");
+	}
+	int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+	if (sockfd ==-1)
+	{
+		printf("Error in socket creation");
+	}
+	
+	client.sin_family = AF_INET;
+	client.sin_addr.s_addr = INADDR_ANY;
+	client.sin_port = htons(atoi(argv[2]));
+	while(1)
+	{
+		char buffer[100];
+		printf("\nEnter message to be send to server: ");
+		gets(buffer);
+		
+		if(sendto(sockfd,buffer,sizeof(buffer),0,(struct sockaddr*)&client,sizeof(client)),0)
+		{
+			printf("Error in sending");
+		}
+		if(strcmp(buffer,"bye")== 0)
+			break;
+		char reply[100];
+		int i=sizeof(client);
+		int k=(recvfrom(sockfd,reply,100,0,(struct sockaddr*)&client,&i));
+	  	if(k<0)
+	    		printf("error in receiving\n");
+		printf("\nGot a datagram:%s",reply);
+		
+	}
+	return 0;
+}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				 OUTPUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+client-side
+```````````
+user@user:~/monkey$ ./client localhost 8080
+
+Enter message to be send to server: hi
+
+Got a datagram:hello
+Enter message to be send to server: how do you do?
+
+Got a datagram:fine
+Enter message to be send to server: bye
+user@user:~/monkey$ 
+
+
+
+
+
+server-side
+```````````
+user@user:~/monkey$ ./server 8080
+Server waiting.
+
+Got a datagram:hi
+Enter reply message: hello
+
+Got a datagram:how do you do?
+Enter reply message: fine
+
+Got a datagram:bye
+Enter reply message: bye
+user@user:~/monkey$ 
+
+
+
