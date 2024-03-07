@@ -1,0 +1,81 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Name     : JEBIN SHAJU
+Class    : CSE B
+Semester : S6
+Roll No  : 33
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	         SLIDING WINDOW PROTOCOL - GO BACK N ARQ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+#include <stdio.h>
+
+void send(int windowsize)
+{
+	int i;
+	for (i=1; i<=windowsize; i++) 
+	{
+		printf("frame%d is transmitted\n", i);
+	}
+}
+
+void retransmiter(int windowsize,int retransmit)
+{
+	int k = windowsize;
+	int i=retransmit+1;
+	while(k!=0)
+	
+	{
+		printf("frame%d is retransmitted\n", i);
+		i++;
+		k--;
+	}
+}
+void main() {
+	int i, windowsize, retransmit;
+	printf("Enter the window size: ");
+	scanf("%d", &windowsize);
+	send(windowsize);
+	while (1) 
+	{
+		printf("Enter the last recieved acknowledgement:(-1/frame_id): ");
+		scanf("%d", &retransmit);
+		if (retransmit != -1 ) 
+		{
+			retransmiter(windowsize,retransmit);
+		}
+		else 
+		{
+			break;
+		}
+	}
+}
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+					 OUTPUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enter the window size: 5
+frame1 is transmitted
+frame2 is transmitted
+frame3 is transmitted
+frame4 is transmitted
+frame5 is transmitted
+Enter the last recieved acknowledgement:(-1/frame_id): 3
+frame4 is retransmitted
+frame5 is retransmitted
+frame6 is retransmitted
+frame7 is retransmitted
+frame8 is retransmitted
+Enter the last recieved acknowledgement:(-1/frame_id): 8
+frame9 is retransmitted
+frame10 is retransmitted
+frame11 is retransmitted
+frame12 is retransmitted
+frame13 is retransmitted
+Enter the last recieved acknowledgement:(-1/frame_id): -1
+

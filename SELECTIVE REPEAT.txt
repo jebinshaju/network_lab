@@ -1,0 +1,68 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Name     : JEBIN SHAJU
+Class    : CSE B
+Semester : S6
+Roll No  : 33
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	         SLIDING WINDOW PROTOCOL - SELECTIVE REPEAT ARQ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+#include <stdio.h>
+void send(int windowsize)
+{
+	int i;
+	for (i=1; i<=windowsize; i++) {
+		printf("frame%d is transmitted\n", i);
+	}
+}
+
+void retransmiter(int retransmit)
+{
+	printf("frame%d is retransmitted\n", retransmit);
+}
+
+
+void main() {
+	int i, windowsize, retransmit;
+	printf("Enter the window size: ");
+	scanf("%d", &windowsize);
+	for (i=1; i<=windowsize; i++) {
+		printf("frame%d is transmitted\n", i);
+	}
+	while (1) {
+		printf("Enter the frame that didn't receive ack:(-1/frameID): ");
+		scanf("%d", &retransmit);
+		if (retransmit != -1 ) {
+			retransmiter(retransmit);
+		}
+	
+		else {
+			break;
+		}
+	}
+}
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+					 OUTPUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enter the window size: 5
+frame1 is transmitted
+frame2 is transmitted
+frame3 is transmitted
+frame4 is transmitted
+frame5 is transmitted
+Enter the frame that didn't receive ack:(-1/frameID): 4
+frame4 is retransmitted
+Enter the frame that didn't receive ack:(-1/frameID): 6
+frame6 is retransmitted
+Enter the frame that didn't receive ack:(-1/frameID): 1
+frame1 is retransmitted
+Enter the frame that didn't receive ack:(-1/frameID): -1
+
+

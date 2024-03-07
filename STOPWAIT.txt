@@ -1,0 +1,79 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Name     : JEBIN SHAJU
+Class    : CSE B
+Semester : S6
+Roll No  : 33
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	         SLIDING WINDOW PROTOCOL - STOP AND WAIT ARQ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+#include<stdio.h>
+int id,ack;
+void send()
+{
+	printf("Enter the frame id to send: ");
+	scanf("%d",&id);
+}
+
+void recieve()
+{
+	printf("Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):");
+	scanf("%d",&ack);
+	if(ack == 0)
+	{
+		printf("Frame lost!!!\n");
+		recieve();
+		
+	}
+}
+
+
+int main()
+{
+	int op;
+	do
+	{
+		send();
+		recieve();
+		if(id == ack)
+		{
+			printf("%d recieved succesfully.\n",id);
+		}
+		else
+		{
+			printf("Error in transmission. need to retransmit.\n");
+			send();
+			recieve();
+		}
+		printf("Enter 1 to continue 0 to stop (1/0): ");
+		scanf("%d",&op);
+	}while(op == 1);
+}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+					 OUTPUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enter the frame id to send: 1
+Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):1
+1 recieved succesfully.
+Enter 1 to continue 0 to stop (1/0): 1
+Enter the frame id to send: 4
+Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):0
+Frame lost!!!
+Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):1
+Error in transmission. need to retransmit.
+Enter the frame id to send: 3
+Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):3
+Enter 1 to continue 0 to stop (1/0): 1
+Enter the frame id to send: 2
+Enter the acknowledgement for the frame recieved.Enter 0 if frame lost. (0/ack):2
+2 recieved succesfully.
+Enter 1 to continue 0 to stop (1/0): 0
+
+
+
