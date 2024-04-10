@@ -85,7 +85,49 @@ int main()
 		 }
 		  
 }
-		       
+
+
+
+
+
+
+This C program simulates a leaky bucket algorithm, which is used for traffic shaping and controlling the rate of data transmission. The program takes inputs such as bucket size, outgoing rate, and the number of inputs. It then simulates the arrival of packets, checking if there is enough space in the bucket buffer to accommodate each incoming packet. If there is sufficient space, the packet is stored in the buffer; otherwise, it's dropped. Additionally, the program accounts for outgoing packets, reducing the buffer size accordingly.
+
+#include <stdio.h>
+
+int main() {
+    int incoming, outgoing, bucket_size, num_inputs, buffer = 0;
+
+    printf("Enter bucket size, outgoing rate, and number of inputs: ");
+    scanf("%d %d %d", &bucket_size, &outgoing, &num_inputs);
+
+    printf("\nSimulation Started:\n");
+
+    while (num_inputs > 0) {
+        printf("\nEnter the size of the incoming packet: ");
+        scanf("%d", &incoming);
+
+        printf("\nProcessing packet of size %d:\n", incoming);
+
+        if (incoming <= (bucket_size - buffer)) {
+            buffer += incoming;
+            printf("Packet accepted. Buffer size: %d out of %d\n", buffer, bucket_size);
+        } else {
+            printf("Packet dropped. Insufficient space in the buffer.\n");
+            printf("Buffer size: %d out of %d\n", buffer, bucket_size);
+        }
+
+        buffer = buffer - outgoing;
+        printf("After processing outgoing packets, %d packets left in buffer.\n", buffer);
+
+        num_inputs--;
+    }
+
+    printf("\nSimulation Completed.\n");
+
+    return 0;
+}
+
 		       
 /*
 user@user:~/monkey$ gcc leakybucket.c && ./a.out
